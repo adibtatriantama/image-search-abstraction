@@ -40,6 +40,34 @@ describe('GetRecentQueryUseCase', () => {
     ]);
     const result3 = await useCase.execute();
 
+
+    repository.getRecent.mockResolvedValue([
+      {
+        id: '4',
+        searchQuery: 'cat',
+        timeSearched: new Date(2022, 2, 11, 10),
+      },
+    ]);
+    const result4 = await useCase.execute();
+
+    repository.getRecent.mockResolvedValue([
+      {
+        id: '5',
+        searchQuery: 'cat',
+        timeSearched: new Date(2022, 2, 12, 10),
+      },
+    ]);
+    const result5 = await useCase.execute();
+
+    repository.getRecent.mockResolvedValue([
+      {
+        id: '6',
+        searchQuery: 'cat',
+        timeSearched: new Date(2022, 2, 13, 10),
+      },
+    ]);
+    const result6 = await useCase.execute();
+
     expect(result1).toEqual([
       {
         _id: '1',
@@ -61,6 +89,30 @@ describe('GetRecentQueryUseCase', () => {
         _id: '3',
         searchQuery: 'cat',
         timeSearched: 'March 22nd 2022, 10:00:00 am',
+      },
+    ]);
+
+    expect(result4).toEqual([
+      {
+        _id: '4',
+        searchQuery: 'cat',
+        timeSearched: 'March 11th 2022, 10:00:00 am',
+      },
+    ]);
+
+    expect(result5).toEqual([
+      {
+        _id: '5',
+        searchQuery: 'cat',
+        timeSearched: 'March 12th 2022, 10:00:00 am',
+      },
+    ]);
+
+    expect(result6).toEqual([
+      {
+        _id: '6',
+        searchQuery: 'cat',
+        timeSearched: 'March 13th 2022, 10:00:00 am',
       },
     ]);
   });
