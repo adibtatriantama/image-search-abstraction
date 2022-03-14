@@ -17,16 +17,28 @@ describe('app', () => {
   });
 
   describe('GET /query', () => {
-    it('should return statusCode 200', async () => {
-      const res = await request(server).get('/query/cat?page=3');
+    describe('happy path', () => {
+      it('should return statusCode 200', async () => {
+        const res = await request(server).get('/query/cat?page=3');
 
-      expect(res.statusCode).toBe(200);
+        expect(res.statusCode).toBe(200);
+      });
+
+      it('should return images', async () => {
+        const res = await request(server).get('/query/cat');
+
+        expect(res.body.images.length).toBeGreaterThan(1);
+      });
     });
 
-    it('should return images', async () => {
-      const res = await request(server).get('/query/cat');
+    describe('unhappy path', () => {
+      describe('when page parameter is not number', () => {
+        it('should return statusCode 400', async () => {
+          const res = await request(server).get('/query/cat?page=a');
 
-      expect(res.body.images.length).toBeGreaterThan(1);
+          expect(res.statusCode).toBe(400);
+        });
+      });
     });
   });
 

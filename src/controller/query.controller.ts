@@ -3,6 +3,7 @@ import {inject} from 'inversify';
 import {
   controller,
   httpGet,
+  queryParam,
   requestParam,
   response,
 } from 'inversify-express-utils';
@@ -19,17 +20,23 @@ export class QueryController {
   @httpGet('/:query')
   imageSearch(
     @requestParam('query') query: string,
-    @requestParam('page') page: string,
+    @queryParam('page') pageString: string,
     @response() res: express.Response,
   ) {
-    try {
-      return this.imageSearchUseCase.execute({
-        query: query,
-        page: parseInt(page),
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({error: error});
+    const page = pageString ? parseInt(pageString) : 1;
+
+    if (Number.isNaN(page)) {
+      res.status(400).json({error: 'page must be a number'});
+    } else {
+      try {
+        return this.imageSearchUseCase.execute({
+          query: query,
+          page,
+        });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({error: error});
+      }
     }
   }
 }
