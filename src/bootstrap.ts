@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import {Application} from 'express';
 import {Container} from 'inversify';
 import {InversifyExpressServer} from 'inversify-express-utils';
-import './controller/query.controller';
 import {QueryLogRepositoryImpl}
   from './repository/impl/query-log.repository.impl';
 import {QueryLogRepository} from './repository/query-log-repository';
@@ -12,6 +11,10 @@ import {ImageSearchService} from './service/image-search.service';
 import {ImageSearchServiceImpl} from './service/impl/image-search.service.impl';
 import {TYPES} from './types';
 import {ImageSearchUseCase} from './usecase/image-search.usecase';
+
+import './controller/query.controller';
+import './controller/recent.controller';
+import {GetRecentQueryUseCase} from './usecase/get-recent-query.usecase';
 
 const PORT = 3000;
 
@@ -35,6 +38,9 @@ export const bootstrap = async (): Promise<BootstrapReturnType> => {
   container
       .bind<ImageSearchUseCase>(TYPES.ImageSearchUseCase)
       .to(ImageSearchUseCase);
+  container
+      .bind<GetRecentQueryUseCase>(TYPES.GetRecentQueryUseCase)
+      .to(GetRecentQueryUseCase);
 
   const prisma = container.get<PrismaClient>(TYPES.PrismaClient);
   await prisma.$connect();

@@ -3,4 +3,5 @@ export const TYPES = {
   ImageSearchService: Symbol.for('ImageSearchService'),
   QueryLogRepository: Symbol.for('QueryLogRepository'),
   ImageSearchUseCase: Symbol.for('ImageSearchUseCase'),
+  GetRecentQueryUseCase: Symbol.for('GetRecentQueryUseCase'),
 };

@@ -42,6 +42,25 @@ describe('app', () => {
     });
   });
 
+  describe('GET /recent', () => {
+    // make sure have some data in db
+    beforeAll(async () => {
+      await request(server).get('/query/kitten');
+    });
+
+    describe('happy path', () => {});
+    it('should return statusCode 200', async () => {
+      const res = await request(server).get('/recent');
+
+      expect(res.statusCode).toBe(200);
+    });
+    it('should return logs', async () => {
+      const res = await request(server).get('/recent');
+
+      expect(res.body.length).toBeGreaterThan(1);
+    });
+  });
+
   afterAll(async () => {
     await prismaClient.$disconnect();
   });

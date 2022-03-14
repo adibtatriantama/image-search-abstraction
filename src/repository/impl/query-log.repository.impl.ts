@@ -15,4 +15,10 @@ export class QueryLogRepositoryImpl implements QueryLogRepository {
       data: entity,
     });
   }
+
+  async getRecent(): Promise<QueryLogEntity[]> {
+    const data = await this.prismaClient.log.findMany();
+
+    return data;
+  }
 }
